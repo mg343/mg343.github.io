@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Heart Disease Probability</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  </head>
+  <body>
+  
+<body>
+    <div class="container mt-3">
+        <h1>Heart Disease Probability</h1>
+        <div id="form_page"  class="row">
+                <div id="form_body" class="col-sm-8">
+                    <form method="post" action="predict1">
+                    <br />
+                    <label>Age: </label><input type="range" class="col-sm-3 form-range" min="25" max="100"  name='Age' Placeholder="Age" id="Age" required><br>
+                    <label >RestingBP: </label><input type="range" class="col-sm-3 form-range" min="0" max="200"  name='RestingBP' Placeholder="RestingBP" id="RestingBP" required><br>
+                    <label >Cholesterol: </label><input type="range" class="col-sm-3 form-range" min="0" max="600"  name='Cholesterol' Placeholder="Cholesterol" id="Cholesterol" required><br>
+                    <label >MaxHR: </label><input type="range" class="col-sm-3 form-range" min="60" max="250"  name='MaxHR' Placeholder="MaxHR" id="MaxHR" required><br>
+                    <label >Oldpeak: </label><input type="range" class="col-sm-3 form-range" min="-3" max="10"  name='Oldpeak' Placeholder="Oldpeak" id="Oldpeak" required><br>
+                    <br>
+                    <input type="radio"  class="form-check-input"   name='FastingBS' value="FastingBSYes" id="FastingBS" > <label for="Yes">FastingBS Yes</label><br>
+                    <input type="radio"  class="form-check-input"   name='FastingBS' value="FastingBSNo" id="FastingBS" > <label for="No">FastingBS No</label><br>
+                    <br>
+                    <input type="radio"  class="form-check-input"    name='Sex' value="M" id="Sex" required><label for="M">Male</label><br>
+                    <input type="radio"  class="form-check-input"    name='Sex' value="F" id="Sex" required><label for="F">Female</label><br>
+                    <br>
+                    <input type="radio"  class="form-check-input"    name='ChestPainType' value="ChestPainType_ASY" id="ChestPainType" ><label for="ChestPainType_ASY">ChestPainType_ASY</label><br>
+                    <input type="radio"  class="form-check-input"    name='ChestPainType' value="ChestPainType_ATA" id="ChestPainType" ><label for="ChestPainType_ATA">ChestPainType_ATA</label><br>
+                    <input type="radio"  class="form-check-input"    name='ChestPainType' value="ChestPainType_NAP" id="ChestPainType" ><label for="ChestPainType_NAP">ChestPainType_NAP</label><br>
+                    <input type="radio"  class="form-check-input"    name='ChestPainType' value="ChestPainType_TA" id="ChestPainType" ><label for="ChestPainType_TA">ChestPainType_TA</label><br>
+                    <br>
+                    <input type="radio"  class="form-check-input"    name='RestingECG' value="RestingECG_Normal" id="RestingECG" ><label for="RestingECG_Normal">RestingECG_Normal</label><br>
+                    <input type="radio"  class="form-check-input"    name='RestingECG' value="RestingECG_ST" id="RestingECG" ><label for="RestingECG_ST">RestingECG_ST</label><br>
+                    <br>
+                    <input type="radio"  class="form-check-input"    name='ExerciseAngina' value="ExerciseAngina_N" id="ExerciseAngina" ><label for="ExerciseAngina_N">ExerciseAngina_N</label><br>
+                    <input type="radio"  class="form-check-input"    name='ExerciseAngina' value="ExerciseAngina_Y" id="ExerciseAngina" ><label for="ExerciseAngina_Y">ExerciseAngina_Y</label><br>
+                    <br>
+                    <input type="radio"  class="form-check-input"    name='ST_Slope' value="ST_Slope_Down" id="ST_Slope" ><label for="ST_Slope_Down">ST_Slope_Down</label><br>
+                    <input type="radio"  class="form-check-input"    name='ST_Slope' value="ST_Slope_Flat" id="ST_Slope" ><label for="ST_Slope_Flat">ST_Slope_Flat</label><br>
+                    <input type="radio"  class="form-check-input"    name='ST_Slope' value="ST_Slope_Up" id="ST_Slope" ><label for="ST_Slope_Up">ST_Slope_Up</label><br>
+                    <br><br>
+                    <input id="submit" type="submit" name="submit" value="submit" onclick="on_submit()">
+            </div>
+            <div id="form_resp" class="col-sm-4">
+                {% if hd>=0 %}
+                    <h3>Heart Disease: {{hd}}</h3>
+                    <h3>Probability: 90.04%</h3>
+                {% endif %}
+                {% if inputdata %}
+                <ul>
+                {% for key, value in inputdata.items() %}
+                    <li>{{ key}} = {{value }}</li>
+                {% endfor %}
+                </ul>
+                {% endif %}
+
+            </div>
+        </form>
+</div>
+</body>
+
+</html>
