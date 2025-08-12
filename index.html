@@ -181,7 +181,7 @@
             box-shadow: 0 0 40px rgba(255, 215, 0, 0.6), inset 0 0 25px rgba(255, 215, 0, 0.2);
         }
 
-        /* New CSS for the clickable hour numbers */
+        /* CSS for the clickable hour numbers */
         .number.secret-link a {
             color: blue;
             text-decoration: underline;
@@ -202,6 +202,32 @@
     </div>
 
     <script>
+        // ===========================================
+        // HOUR NUMBER LINK CONFIGURATION
+        // ===========================================
+        // To customize links for each hour number, modify the URLs below
+        const HOUR_LINKS = {
+            1:  'smokestack.html',
+            2:  'secret-page.html',
+            3:  'secret-page.html',
+            4:  'secret-page.html',
+            5:  'secret-page.html',
+            6:  'secret-page.html',
+            7:  'secret-page.html',
+            8:  'secret-page.html',
+            9:  'secret-page.html',
+            10: 'secret-page.html',
+            11: 'secret-page.html',
+            12: 'secret-page.html'
+        };
+
+        // Set to true to make links open in new tab, false for same tab
+        const OPEN_IN_NEW_TAB = true;
+        
+        // ===========================================
+        // CLOCK FUNCTIONALITY
+        // ===========================================
+
         let isDragging = false;
         let activeHand = null;
         let clockInterval = null;
@@ -210,7 +236,6 @@
         let lastMinuteAngle = 0;
         let secondHandPaused = false;
         let pausedSecondAngle = 0;
-        let isLinkActive = false; // Flag to track if the markers are clickable
 
         function createClockMarkers() {
             const hourMarkers = document.getElementById('hourMarkers');
@@ -247,8 +272,38 @@
                 number.textContent = i;
                 number.style.left = `${x}px`;
                 number.style.top = `${y}px`;
+                number.dataset.hourNumber = i; // Store hour number for easy reference
                 numbers.appendChild(number);
             }
+        }
+
+        function applyHourNumberLinks(isSecretTime) {
+            const hourNumbers = document.querySelectorAll('.number');
+
+            hourNumbers.forEach(number => {
+                const hourNum = parseInt(number.dataset.hourNumber);
+                
+                if (isSecretTime) {
+                    // Create link if it doesn't exist
+                    if (!number.querySelector('a')) {
+                        const link = document.createElement('a');
+                        link.href = HOUR_LINKS[hourNum] || 'secret-page.html';
+                        if (OPEN_IN_NEW_TAB) {
+                            link.target = "_blank";
+                        }
+                        link.textContent = number.textContent;
+                        number.innerHTML = '';
+                        number.appendChild(link);
+                        number.classList.add('secret-link');
+                    }
+                } else {
+                    // Remove link if it exists
+                    if (number.querySelector('a')) {
+                        number.innerHTML = number.querySelector('a').textContent;
+                        number.classList.remove('secret-link');
+                    }
+                }
+            });
         }
     
         function getCurrentTime() {
@@ -295,28 +350,9 @@
             const formattedMinutes = String(displayMinutes).padStart(2, '0');
             document.getElementById('digitalTime').textContent = `${formattedHours}:${formattedMinutes}`;
 
-            // Logic to make all hour numbers clickable at 03:43
-            const hourNumbers = document.querySelectorAll('.number');
+            // Check if it's the secret time (03:43) and apply links accordingly
             const isSecretTime = (hours % 12 === 3 && minutes === 43);
-
-            hourNumbers.forEach(number => {
-                if (isSecretTime) {
-                    if (!number.querySelector('a')) {
-                        const link = document.createElement('a');
-                        link.href = 'secret-page.html';
-                        link.target = "_blank"
-                        link.textContent = number.textContent;
-                        number.innerHTML = '';
-                        number.appendChild(link);
-                        number.classList.add('secret-link');
-                    }
-                } else {
-                    if (number.querySelector('a')) {
-                        number.innerHTML = number.querySelector('a').textContent;
-                        number.classList.remove('secret-link');
-                    }
-                }
-            });
+            applyHourNumberLinks(isSecretTime);
         }
     
         function getAngleFromCenter(event, element) {
@@ -422,27 +458,9 @@
             const formattedMinutes = String(displayMinutes).padStart(2, '0');
             document.getElementById('digitalTime').textContent = `${formattedHours}:${formattedMinutes}`;
             
-            const hourNumbers = document.querySelectorAll('.number');
+            // Check if it's the secret time and apply links during drag
             const isSecretTime = (newTime.getHours() % 12 === 3 && newTime.getMinutes() === 43);
-
-            hourNumbers.forEach(number => {
-                if (isSecretTime) {
-                    if (!number.querySelector('a')) {
-                        const link = document.createElement('a');
-                        link.href = 'secret-page.html';
-                        link.target = "_blank"
-                        link.textContent = number.textContent;
-                        number.innerHTML = '';
-                        number.appendChild(link);
-                        number.classList.add('secret-link');
-                    }
-                } else {
-                    if (number.querySelector('a')) {
-                        number.innerHTML = number.querySelector('a').textContent;
-                        number.classList.remove('secret-link');
-                    }
-                }
-            });
+            applyHourNumberLinks(isSecretTime);
         }
     
         function stopDrag() {
@@ -472,12 +490,15 @@
             document.removeEventListener('mouseup', stopDrag);
         }
     
+        // Initialize the clock
         createClockMarkers();
         updateClock();
     
+        // Add event listeners for dragging hands
         document.getElementById('hourHand').addEventListener('mousedown', (e) => startDrag('hour', e));
         document.getElementById('minuteHand').addEventListener('mousedown', (e) => startDrag('minute', e));
     
+        // Start the clock update interval
         clockInterval = setInterval(updateClock, 50);
     </script>
 </body>
