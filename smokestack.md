@@ -25,3 +25,12 @@ Audio Reporting is not one that usually gets the spotlight (it might be, I just 
 
 ⌛ Total Writing Time: 1.5hrs (how can I do this but not focus on anything else for over an hour. That's pretty cool)  
 
+
+
+also go take the stuff from windows and put it in here
+
+
+and seperately
+
+todays lecture was revealing:
+dsa midterm lecture - discussing time complexity (n+n/2+n/4...), simplified, saw it looked like - https://en.wikipedia.org/wiki/Ramanujan_summation - https://en.wikipedia.org/wiki/1_%2B_2_%2B_3_%2B_4_%2B_%E2%8B%AF - https://en.wikipedia.org/wiki/Monstrous_moonshine - #Related_observations - https://www.numdam.org/item/SDPP_1974-1975__16_1_A4_0.pdf PAGE 7, JACK DANIELS
